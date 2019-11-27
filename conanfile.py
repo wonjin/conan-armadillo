@@ -9,8 +9,14 @@ class ArmadilloConan(ConanFile):
     url = "http://arma.sourceforge.net/"
     description = "Armadillo is a high quality linear algebra library (matrix maths) for the C++ language, aiming towards a good balance between speed and ease of use"
     settings = "os", "compiler", "build_type", "arch"
-    options = {"ARMA_USE_LAPACK" : [True, False], "ARMA_USE_BLAS" : [True, False]}
-    default_options = {"ARMA_USE_LAPACK": True, "ARMA_USE_BLAS": True }
+    options = {
+        "arma_use_lapack" : [True, False],
+        "arma_use_blas" : [True, False]
+        }
+    default_options = {
+        "arma_use_lapack": True,
+        "arma_use_blas": True 
+        }
     generators = "cmake"
     requires = ("lapack/3.7.1@conan/stable",)# "openblas/0.2.20@conan/stable")
     
@@ -30,14 +36,14 @@ class ArmadilloConan(ConanFile):
         tools.download("https://raw.githubusercontent.com/fb39ca4/conan-armadillo/master/CMakeLists.txt", filename="CMakeLists.txt")
         shutil.copyfile("CMakeLists.txt", "armadillo/CMakeLists.txt")
 
-        if self.options.ARMA_USE_LAPACK:
+        if not self.options.arma_use_lapack:
             tools.replace_in_file(file_path="armadillo/include/armadillo_bits/config.hpp",
-                                  search="#define ARMA_USE_LAPACK",
-                                  replace="//#define ARMA_USE_LAPACK")
-        if self.options.ARMA_USE_BLAS:
+                                  search="#define arma_use_lapack",
+                                  replace="//#define arma_use_lapack")
+        if not self.options.arma_use_blas:
             tools.replace_in_file(file_path="armadillo/include/armadillo_bits/config.hpp",
-                                  search="#define ARMA_USE_BLAS",
-                                  replace="//#define ARMA_USE_BLAS")
+                                  search="#define arma_use_blas",
+                                  replace="//#define arma_use_blas")
         
     def build(self):
         cmake = CMake(self)

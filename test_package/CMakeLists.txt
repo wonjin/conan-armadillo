@@ -5,7 +5,8 @@ include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
 add_executable(example example.cpp)
-target_link_libraries(example ${CONAN_LIBS})
+list(REMOVE_ITEM CONAN_LIBS ${CONAN_LIBS_LAPACK})
+target_link_libraries(example ${CONAN_LIBS} liblapack libblas)
 
 # CTest is a testing tool that can be used to test your project.
 # enable_testing()
