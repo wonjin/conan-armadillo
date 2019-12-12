@@ -18,7 +18,7 @@ class ArmadilloConan(ConanFile):
         "arma_use_blas": True 
         }
     generators = "cmake"
-    requires = ("lapack/3.7.1@conan/stable",)# "openblas/0.2.20@conan/stable")
+    requires = ("lapack/3.7.1@kang/stable",)# "openblas/0.2.20@conan/stable")
     
     def configure(self):
         if self.settings.compiler == "Visual Studio":
