@@ -4,7 +4,7 @@ import shutil
 
 class ArmadilloConan(ConanFile):
     name = "armadillo"
-    version = "8.400.0"
+    version = "9.700.3"
     license = "Apache License 2.0"
     url = "http://arma.sourceforge.net/"
     description = "Armadillo is a high quality linear algebra library (matrix maths) for the C++ language, aiming towards a good balance between speed and ease of use"
@@ -18,7 +18,7 @@ class ArmadilloConan(ConanFile):
         "arma_use_blas": True 
         }
     generators = "cmake"
-    requires = ("lapack/3.7.1@conan/stable",)# "openblas/0.2.20@conan/stable")
+    requires = ("lapack/3.7.1@kang/stable")
     
     def configure(self):
         if self.settings.compiler == "Visual Studio":
@@ -32,9 +32,6 @@ class ArmadilloConan(ConanFile):
         tools.untargz(zip_name)
         os.unlink(zip_name)
         shutil.move(folder_name, "armadillo")
-        shutil.move("armadillo/CMakeLists.txt", "armadillo/CMakeListsOriginal.cmake")
-        tools.download("https://raw.githubusercontent.com/fb39ca4/conan-armadillo/master/CMakeLists.txt", filename="CMakeLists.txt")
-        shutil.copyfile("CMakeLists.txt", "armadillo/CMakeLists.txt")
 
         if not self.options.arma_use_lapack:
             tools.replace_in_file(file_path="armadillo/include/armadillo_bits/config.hpp",
